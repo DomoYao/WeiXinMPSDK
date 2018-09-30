@@ -1,4 +1,24 @@
-﻿using System;
+﻿#region Apache License Version 2.0
+/*----------------------------------------------------------------
+
+Copyright 2018 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+except in compliance with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the
+License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+either express or implied. See the License for the specific language governing permissions
+and limitations under the License.
+
+Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
+
+----------------------------------------------------------------*/
+#endregion Apache License Version 2.0
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +28,8 @@ using Senparc.Weixin.Cache;
 using Senparc.Weixin.Cache.Redis;
 using Senparc.Weixin.MP.Containers;
 using Senparc.Weixin.MP.Test.CommonAPIs;
+using Senparc.CO2NET.Cache;
+using Senparc.CO2NET.Cache.Redis;
 
 namespace Senparc.Weixin.MP.Test.Containers.Tests
 {
@@ -25,9 +47,9 @@ namespace Senparc.Weixin.MP.Test.Containers.Tests
             {
                 var redisConfiguration = "localhost:6379";
                 RedisManager.ConfigurationOption = redisConfiguration;
-                CacheStrategyFactory.RegisterContainerCacheStrategy(() => RedisContainerCacheStrategy.Instance);//Redis
+                CacheStrategyFactory.RegisterObjectCacheStrategy(() => RedisObjectCacheStrategy.Instance);//Redis
             }
-
+            
             //注册
             AccessTokenContainer.Register(base._appId, base._appSecret);
 
@@ -167,7 +189,7 @@ namespace Senparc.Weixin.MP.Test.Containers.Tests
 
             var registeredAppId = base._appId;//已经注册的AppId
 
-            var appId = AccessTokenContainer.GetFirstOrDefaultAppId();
+            var appId = AccessTokenContainer.GetFirstOrDefaultAppId(PlatformType.MP);
             Assert.AreEqual(registeredAppId, appId);
 
             //注册多个AppId

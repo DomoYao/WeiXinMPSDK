@@ -1,5 +1,25 @@
-﻿/*----------------------------------------------------------------
-    Copyright (C) 2016 Senparc
+﻿#region Apache License Version 2.0
+/*----------------------------------------------------------------
+
+Copyright 2018 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+except in compliance with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the
+License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+either express or implied. See the License for the specific language governing permissions
+and limitations under the License.
+
+Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
+
+----------------------------------------------------------------*/
+#endregion Apache License Version 2.0
+
+/*----------------------------------------------------------------
+    Copyright (C) 2018 Senparc
   
     文件名：Enums.cs
     文件功能描述：枚举类型
@@ -34,26 +54,67 @@
     修改标识：Senparc - 20160803
     修改描述：将其卡券中的 code_type 定义完整
  
+    修改标识：Senparc - 20160901
+    修改描述：v14.3.7 增加QrCode_ActionName枚举
+
+    修改标识：Senparc - 20161024
+    修改描述：v14.3.1024 添加RedPack_Scene枚举
+
+    修改标识：Senparc - 20161204
+    修改描述：v14.3.1025 添加TenPayV3CodeState枚举[统一订单返回状态]
+
+    修改标识：Senparc - 20170106
+    修改描述：v14.3.117 ResponseMsgType添加SuccessResponse枚举
+
+    修改标识：Senparc - 20170328
+    修改描述：v14.3.139 ButtonType添加小程序类型
+
+    修改标识：Senparc - 20170807
+    修改描述：v14.5.7 添加TenPayV3Type.MWEB枚举，支持H5支付
+
+    修改标识：Senparc - 20170826
+    修改描述：v14.6.8 添加Event下“微信认证事件推送”一系列事件类型
+
+    修改标识：Senparc - 20171108
+    修改描述：v14.8.5 卡券MemberCard_CustomField_NameType枚举添加FIELD_NAME_TYPE_UNKNOW类型
+
+    修改标识：Senparc - 20170225
+    修改描述：v14.10.3 增加MessageHandler的file类型处理
+
+    修改标识：Senparc - 20180826
+    修改描述：v15.3.0 分离微信支付到 Senparc.Weixin.TenPay.dll，将 RedPack_Scene、TenPayV3Type 枚举迁移过去
+
+    修改标识：Senparc - 20180826
+    修改描述：v15.3.0 分离微信支付到 Senparc.Weixin.TenPay.dll，将 RedPack_Scene、TenPayV3Type 枚举迁移过去
+
+    修改标识：Senparc - 20180829
+    修改描述：v15.4.0 RequestMsgType 枚举添加 NeuChar 类型
+
 ----------------------------------------------------------------*/
 
+using System;
 using System.ComponentModel;
 
 namespace Senparc.Weixin.MP
 {
-    /// <summary>
-    /// 接收消息类型
-    /// </summary>
-    public enum RequestMsgType
-    {
-        Text, //文本
-        Location, //地理位置
-        Image, //图片
-        Voice, //语音
-        Video, //视频
-        Link, //连接信息
-        ShortVideo,//小视频
-        Event, //事件推送
-    }
+    ///// <summary>
+    ///// 接收消息类型
+    ///// </summary>
+    //public enum RequestMsgType
+    //{
+    //    Unknown = -1,//未知类型
+    //    Text = 0, //文本
+    //    Location = 1, //地理位置
+    //    Image = 2, //图片
+    //    Voice = 3, //语音
+    //    Video = 4, //视频
+    //    Link = 5, //连接信息
+    //    ShortVideo = 6,//小视频
+    //    Event = 7, //事件推送
+    //    File = 8,//文件类型
+
+    //    NeuChar = 99//NeuChar请求
+    //}
 
 
     /// <summary>
@@ -210,38 +271,118 @@ namespace Senparc.Weixin.MP
         /// 摇一摇事件通知
         /// </summary>
         ShakearoundUserShake,
+        /// <summary>
+        /// 卡券转赠事件推送
+        /// </summary>
+        user_gifting_card,
+        /// <summary>
+        /// 微信买单完成
+        /// </summary>
+        user_pay_from_pay_cell,
+        /// <summary>
+        /// 会员卡内容更新事件：会员卡积分余额发生变动时
+        /// </summary>
+        update_member_card,
+        /// <summary>
+        /// 卡券库存报警事件：当某个card_id的初始库存数大于200且当前库存小于等于100时
+        /// </summary>
+        card_sku_remind,
+        /// <summary>
+        /// 券点流水详情事件：当商户朋友的券券点发生变动时
+        /// </summary>
+        card_pay_order,
+
+
+        #region 微信认证事件推送
+
+        /// <summary>
+        /// 资质认证成功（此时立即获得接口权限）
+        /// </summary>
+        qualification_verify_success,
+        /// <summary>
+        /// 名称认证成功（即命名成功）
+        /// </summary>
+        qualification_verify_fail,
+        /// <summary>
+        /// 名称认证成功（即命名成功）
+        /// </summary>
+        naming_verify_success,
+        /// <summary>
+        /// 名称认证失败（这时虽然客户端不打勾，但仍有接口权限）
+        /// </summary>
+        naming_verify_fail,
+        /// <summary>
+        /// 年审通知
+        /// </summary>
+        annual_renew,
+        /// <summary>
+        /// 认证过期失效通知
+        /// </summary>
+        verify_expired,
+
+        #endregion
+
+        #region 小程序审核事件推送
+
+        /// <summary>
+        /// 小程序审核成功
+        /// </summary>
+        weapp_audit_success,
+        /// <summary>
+        /// 小程序审核失败
+        /// </summary>
+        weapp_audit_fail,
+
+        #endregion
+
+        #region 卡券回调：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=215143440770UT7Y
+        /// <summary>
+        /// 用户购买礼品卡付款成功
+        /// </summary>
+        giftcard_pay_done,
+        /// <summary>
+        /// 用户购买后赠送
+        /// </summary>
+        giftcard_send_to_friend,
+        /// <summary>
+        /// 用户领取礼品卡成功
+        /// </summary>
+        giftcard_user_accept,
+        #endregion
     }
 
 
-    /// <summary>
-    /// 发送消息类型
-    /// </summary>
-    public enum ResponseMsgType
-    {
-        [Description("文本")]
-        Text = 0,
-        [Description("单图文")]
-        News = 1,
-        [Description("音乐")]
-        Music = 2,
-        [Description("图片")]
-        Image = 3,
-        [Description("语音")]
-        Voice = 4,
-        [Description("视频")]
-        Video = 5,
-        [Description("多客服")]
-        Transfer_Customer_Service,
-        //transfer_customer_service
+    ///// <summary>
+    ///// 发送消息类型
+    ///// </summary>
+    //public enum ResponseMsgType
+    //{
+    //    [Description("文本")]
+    //    Text = 0,
+    //    [Description("单图文")]
+    //    News = 1,
+    //    [Description("音乐")]
+    //    Music = 2,
+    //    [Description("图片")]
+    //    Image = 3,
+    //    [Description("语音")]
+    //    Voice = 4,
+    //    [Description("视频")]
+    //    Video = 5,
+    //    [Description("多客服")]
+    //    Transfer_Customer_Service,
+    //    //transfer_customer_service
 
-        //以下为延伸类型，微信官方并未提供具体的回复类型
-        [Description("多图文")]
-        MultipleNews = 106,
-        [Description("位置")]
-        LocationMessage = 107,//
-        [Description("无回复")]
-        NoResponse = 110,
-    }
+    //    //以下为延伸类型，微信官方并未提供具体的回复类型
+    //    [Description("多图文")]
+    //    MultipleNews = 106,
+    //    [Description("位置")]
+    //    LocationMessage = 107,//
+    //    [Description("无回复")]
+    //    NoResponse = 110,
+    //    [Description("success")]
+    //    SuccessResponse = 200
+    //}
 
     /// <summary>
     /// 菜单按钮类型
@@ -256,6 +397,10 @@ namespace Senparc.Weixin.MP
         /// Url
         /// </summary>
         view,
+        /// <summary>
+        /// 小程序
+        /// </summary>
+        miniprogram,
         /// <summary>
         /// 扫码推事件
         /// </summary>
@@ -279,7 +424,15 @@ namespace Senparc.Weixin.MP
         /// <summary>
         /// 弹出地理位置选择器
         /// </summary>
-        location_select
+        location_select,
+        /// <summary>
+        /// 下发消息（除文本消息）
+        /// </summary>
+        media_id,
+        /// <summary>
+        /// 跳转图文消息URL
+        /// </summary>
+        view_limited
     }
 
     /// <summary>
@@ -326,12 +479,7 @@ namespace Senparc.Weixin.MP
     //    涉嫌互推 = 22000,
     //    涉嫌其他 = 21000
     //}
-    public enum TenPayV3Type
-    {
-        JSAPI,
-        NATIVE,
-        APP
-    }
+
 
     public enum GroupMessageType
     {
@@ -497,6 +645,11 @@ namespace Senparc.Weixin.MP
         /// 里程
         /// </summary>
         FIELD_NAME_TYPE_MILEAGE = 5,
+
+        /// <summary>
+        /// 未知类型（新加入，文档中没有：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025272）
+        /// </summary>
+        FIELD_NAME_TYPE_UNKNOW = -1
     }
 
     /// <summary>
@@ -819,4 +972,88 @@ namespace Senparc.Weixin.MP
         代运营商_代运营商 = 01301, //需要资质文件
         智能硬件_智能硬件 = 01401, //需要资质文件
     }
+
+    /// <summary>
+    /// 二维码类型
+    /// </summary>
+    public enum QrCode_ActionName
+    {
+        /// <summary>
+        /// 临时
+        /// </summary>
+        QR_SCENE,
+        /// <summary>
+        /// 永久
+        /// </summary>
+        QR_LIMIT_SCENE,
+        /// <summary>
+        /// 永久的字符串
+        /// </summary>
+        QR_LIMIT_STR_SCENE,
+        /// <summary>
+        /// 临时的字符串参数值
+        /// </summary>
+        QR_STR_SCENE
+    }
+
+
+    /// <summary>
+    /// 支付类型
+    /// </summary>
+
+    [Obsolete("请使用 Senparc.Weixin.TenPay.dll，Senparc.Weixin.TenPay.V3 中的对应方法")]
+    public enum TenPayV3Type
+    {
+        /// <summary>
+        /// 公众号JS-API支付和小程序支付
+        /// </summary>
+        JSAPI,
+        NATIVE,
+        APP,
+        MWEB
+    }
+
+    #region 过期
+
+    /// <summary>
+    /// 红包的场景id（scene_id），最中输出为字符串
+    /// </summary>
+    [Obsolete("请使用 Senparc.Weixin.TenPay.dll，Senparc.Weixin.TenPay.V3 中的对应方法")]
+    public enum RedPack_Scene
+    {
+        /// <summary>
+        /// 商品促销
+        /// </summary>
+        PRODUCT_1,
+        /// <summary>
+        /// 抽奖
+        /// </summary>
+        PRODUCT_2,
+        /// <summary>
+        /// 虚拟物品兑奖
+        /// </summary>
+        PRODUCT_3,
+        /// <summary>
+        /// 企业内部福利
+        /// </summary>
+        PRODUCT_4,
+        /// <summary>
+        /// 渠道分润
+        /// </summary>
+        PRODUCT_5,
+        /// <summary>
+        /// 保险回馈
+        /// </summary>
+        PRODUCT_6,
+        /// <summary>
+        /// 彩票派奖
+        /// </summary>
+        PRODUCT_7,
+        /// <summary>
+        /// 税务刮奖
+        /// </summary>
+        PRODUCT_8
+    }
+
+    #endregion
 }
